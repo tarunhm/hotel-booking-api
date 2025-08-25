@@ -29,8 +29,34 @@ internal class HotelBookingDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<HotelEntity>()
-            .HasKey(x => x.Id);
+        modelBuilder.Entity<HotelEntity>(hotelEntity =>
+        {
+            hotelEntity.HasKey(hotel => hotel.Id);
+
+            hotelEntity.HasMany(hotel => hotel.Rooms).WithOne(room => room.Hotel)
+                    .HasPrincipalKey(hotel => hotel.Id)
+                    .HasForeignKey(room => room.HotelId);
+        });
+
+        modelBuilder.Entity<RoomEntity>(roomEntity =>
+        {
+            roomEntity.HasKey(room => room.Id);
+
+            roomEntity.HasOne(room => room.Hotel).WithMany(hotel => hotel.Rooms)
+                    .HasForeignKey(room => room.HotelId);
+
+            roomEntity.HasMany(room => room.Bookings).WithOne(booking => booking.Room)
+                    .HasPrincipalKey(room => room.Id)
+                    .HasForeignKey(booking => booking.RoomId);
+        });
+
+        modelBuilder.Entity<BookingEntity>(bookingEntity =>
+        {
+            bookingEntity.HasKey(booking => booking.BookingId);
+
+            bookingEntity.HasOne(booking => booking.Room).WithMany(hotel => hotel.Bookings)
+                    .HasForeignKey(room => room.RoomId);
+        });
     }
 
     internal virtual DbSet<HotelEntity> Hotels { get; set; } = null!;
