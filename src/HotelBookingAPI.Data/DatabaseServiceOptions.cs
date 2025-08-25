@@ -1,6 +1,6 @@
 ﻿namespace HotelBookingAPI.Data;
 
-internal class DatabaseServiceOptions
+public class DatabaseServiceOptions
 {
     public string? Username { get; set; }
 
