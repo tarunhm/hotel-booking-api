@@ -1,6 +1,8 @@
-﻿namespace HotelBookingAPI.Data.Repositories.Interface;
+﻿using HotelBookingAPI.Data.Entities;
+
+namespace HotelBookingAPI.Data.Repositories.Interface;
 
 public interface IHotelRoomRepository
 {
-    string GetHotels(string hotelSubstring);
+    Task<IList<HotelEntity>> GetHotels(string hotelSubstring)
 }
