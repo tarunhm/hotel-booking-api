@@ -21,12 +21,12 @@ internal class HotelRepository : IHotelRepository
                     .ToListAsync();
     }
 
-    public async Task<IList<HotelEntity>> GetHotels(string hotelSubstring)
+    public async Task<IList<HotelEntity>> GetByName(string hotelSubstring)
     {
         return await _dbContext.Hotels
                     .AsNoTracking()
                     .Where(hotel => !string.IsNullOrEmpty(hotel.HotelName) 
-                        && hotel.HotelName.Contains(hotelSubstring, StringComparison.CurrentCultureIgnoreCase))
+                        && hotel.HotelName.ToLower().Contains(hotelSubstring.ToLower()))
                     .Include(hotel => hotel.Rooms)
                     .ToListAsync();
     }
