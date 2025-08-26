@@ -15,6 +15,7 @@ public class HotelService : IHotelService
 
     public async Task<IList<HotelModel>> GetAll()
     {
+        // ToDo: Mapper
         return (await _hotelRepository.GetAll()).Select(hotel => new HotelModel()
         {
             Id = hotel.Id,
@@ -24,6 +25,7 @@ public class HotelService : IHotelService
 
     public async Task<IList<HotelModel>> GetBySubstring(string substring)
     {
+        // ToDo: Mapper
         return (await _hotelRepository.GetByName(substring)).Select(hotel => new HotelModel()
         {
             Id = hotel.Id,
