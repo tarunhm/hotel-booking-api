@@ -52,4 +52,5 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-/src/HotelBookingAPI/HotelBookingAPI.csproj.user
+*.csproj.user
+/src/.vs
