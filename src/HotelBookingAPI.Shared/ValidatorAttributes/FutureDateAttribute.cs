@@ -9,8 +9,12 @@ public sealed class FutureDateAttribute : ValidationAttribute
 
     public FutureDateAttribute() { }
 
-    public override bool IsValid(object? value)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        return value != null && ((DateOnly)value).CompareTo(_minDate) >= 0;
+        if (value == null) { return new ValidationResult("Value can't be null"); }
+
+        if (((DateOnly)value).CompareTo(_minDate) >= 0) { return ValidationResult.Success!; }
+
+        return new ValidationResult($"Date must be today's or in the future.");
     }
 }

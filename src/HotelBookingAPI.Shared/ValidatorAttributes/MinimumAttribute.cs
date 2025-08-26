@@ -12,8 +12,13 @@ public sealed class MinValueAttribute : ValidationAttribute
         _minValue = minValue;
     }
 
-    public override bool IsValid(object? value)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        return value != null && (int)value >= _minValue;
+
+        if (value == null) { return new ValidationResult("Value cannot be null"); }
+
+        if ((int)value >= _minValue) { return ValidationResult.Success!; }
+
+        return new ValidationResult($"Value must be greater than or equal to {_minValue}.");
     }
 }
