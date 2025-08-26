@@ -15,10 +15,10 @@ internal class BookingEntity
     public int RoomId { get; set; }
 
     [Column("CHECK_IN_DATE")]
-    public DateOnly CheckInDate { get; set; }
+    public DateTime CheckInDate { get; set; }
 
     [Column("CHECK_OUT_DATE")]
-    public DateOnly CheckOutDate { get; set; }
+    public DateTime CheckOutDate { get; set; }
 
     [Column("BOOKING_USERNAME")]
     public string? BookingUser { get; set; } = null!;
