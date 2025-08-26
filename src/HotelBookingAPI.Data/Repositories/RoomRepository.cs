@@ -13,6 +13,18 @@ internal class RoomRepository : IRoomRepository
 
     public HotelBookingDbContext _dbContext { get; }
 
+    public RoomEntity? GetByID(int id)
+    {
+        var rooms = _dbContext.Rooms
+            .Where(room => room.Id == id)
+            .Include(room => room.Bookings)
+            .Include(room => room.Hotel)
+            .AsNoTracking();
+
+        if (rooms.Count() != 1) { return null; }
+        return rooms.Single();
+    }
+
     public IEnumerable<RoomEntity> GetByCapacity(int people)
     {
         return _dbContext.Rooms
