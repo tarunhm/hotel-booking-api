@@ -1,4 +1,5 @@
 ﻿using HotelBookingAPI.Data.Entities;
+using HotelBookingAPI.Data.Mappers;
 using HotelBookingAPI.Data.Repositories.Interface;
 using HotelBookingAPI.Data.Services.Interface;
 using HotelBookingAPI.Shared.Models;
@@ -21,19 +22,7 @@ public class BookingService : IBookingService
         var booking = await _bookingRepository.GetBooking(id);
         if (booking == null) { return null; }
 
-        //TODO = extract mapping
-        return new BookingModel() 
-        { 
-            BookingId = id, 
-            BookingUser = booking.BookingUser, 
-            CheckInDate = DateOnly.FromDateTime(booking.CheckInDate), 
-            CheckOutDate = DateOnly.FromDateTime(booking.CheckOutDate),
-            RoomId = booking.RoomId,
-            RoomType = booking.Room.RoomType,
-            RoomCapacity = booking.Room.RoomCapacity,
-            HotelId = booking.Room.HotelId,
-            HotelName = booking.Room.Hotel?.HotelName!
-        };
+        return BookingMapper.MapEntityToModel(booking);
     }
 
     public async Task<int> CreateBooking(BookingRequestModel bookingRequest)
@@ -44,15 +33,8 @@ public class BookingService : IBookingService
             throw new InvalidOperationException($"Room with ID {bookingRequest.RoomId} does not exist.");
         }
 
-        //Check availability here
-        //ToDo: Extract mapping
-        var bookingEntity = new BookingEntity()
-        {
-            RoomId = bookingRequest.RoomId,
-            CheckInDate = bookingRequest.CheckInDate.ToDateTime(new TimeOnly()),
-            CheckOutDate = bookingRequest.CheckInDate.AddDays(bookingRequest.Nights).ToDateTime(new TimeOnly()),
-            BookingUser = bookingRequest.BookingUser
-        };
+        // ToDo: Check availability here
+        var bookingEntity = BookingMapper.MapRequestModelToEntity(bookingRequest);
 
         return await _bookingRepository.CreateBookingEntity(bookingEntity);
     }

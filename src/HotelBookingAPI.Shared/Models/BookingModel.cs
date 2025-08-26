@@ -2,7 +2,7 @@
 
 public class BookingModel
 {
-    public int BookingId { get; set; }
+    public int? BookingId { get; set; }
 
     public string? BookingUser { get; set; } = null!;
 

@@ -19,8 +19,7 @@ internal class BookingRepository : IBookingRepository
         await _dbContext.SaveChangesAsync();
         if (entity.Entity != null && entity.Entity.BookingId != null) { return (int)entity.Entity.BookingId; }
 
-        return 0;
-        // Throw Exception here
+        throw new DbUpdateException("Unexpected Exception when creating booking.");
     }
 
     public async Task<BookingEntity?> GetBooking(int bookingId)
