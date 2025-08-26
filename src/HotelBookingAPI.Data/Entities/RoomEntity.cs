@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace HotelBookingAPI.Data.Entities;
 
 [Table("ROOMS", Schema = "HOTEL_BOOKING")]
-internal class RoomEntity
+public class RoomEntity
 {
     [Key]
     [Column("ROOM_ID")]
