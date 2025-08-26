@@ -25,6 +25,11 @@ internal class BookingRepository : IBookingRepository
 
     public async Task<BookingEntity?> GetBooking(int bookingId)
     {
-        return await _dbContext.Bookings.Where(booking => booking.BookingId == bookingId).SingleOrDefaultAsync();
+        var bookings = _dbContext.Bookings.Where(booking => booking.BookingId == bookingId)
+            .Include(booking => booking.Room)
+            .ThenInclude(room => room.Hotel);
+
+        if (await bookings.AnyAsync()) { return await bookings.SingleAsync(); }
+        return null;
     }
 }
