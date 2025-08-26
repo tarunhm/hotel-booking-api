@@ -34,9 +34,4 @@ internal class RoomRepository : IRoomRepository
             .AsNoTracking()
             .AsEnumerable();
     }
-
-    public async Task<bool> ExistsById(int roomId)
-    {
-        return await _dbContext.Rooms.AnyAsync(room => room.Id.Equals(roomId));
-    }
 }
