@@ -28,15 +28,18 @@ public class BookingService : IBookingService
     public async Task<int> CreateBooking(BookingRequestModel bookingRequest)
     {
         // Check room exists
-        if (!await _roomRepository.ExistsById(bookingRequest.RoomId))
+        var room = _roomRepository.GetByID(bookingRequest.RoomId)
+            ?? throw new InvalidOperationException($"Room with ID {bookingRequest.RoomId} does not exist.");
+
+        // Check room is available
+        if (IsRoomAvailable(room.Bookings, bookingRequest.CheckInDate, bookingRequest.Nights))
         {
-            throw new InvalidOperationException($"Room with ID {bookingRequest.RoomId} does not exist.");
+            var bookingEntity = BookingMapper.MapRequestModelToEntity(bookingRequest);
+
+            return await _bookingRepository.CreateBookingEntity(bookingEntity);
         }
 
-        // ToDo: Check availability here
-        var bookingEntity = BookingMapper.MapRequestModelToEntity(bookingRequest);
-
-        return await _bookingRepository.CreateBookingEntity(bookingEntity);
+        throw new InvalidOperationException($"Room with ID {bookingRequest.RoomId} is not available for check in on {bookingRequest.CheckInDate} for {bookingRequest.Nights} nights.");
     }
 
     public IList<RoomModel> GetAvailableRooms(int people, DateOnly checkInDate, int duration)
