@@ -27,9 +27,9 @@ public class HotelController: ControllerBase
 
             return NotFound();
         }
-        catch
+        catch (Exception ex)
         {
-            return StatusCode(500, "An Internal Server Error Occured");
+            return StatusCode(500, ex);
         }
     }
 
@@ -43,9 +43,9 @@ public class HotelController: ControllerBase
 
             return NotFound();
         }
-        catch
+        catch (Exception ex)
         {
-            return StatusCode(500, "An Internal Server Error Occured");
+            return StatusCode(500, ex);
         }
     }
 }
