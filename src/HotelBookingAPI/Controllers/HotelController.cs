@@ -1,5 +1,5 @@
-﻿using HotelBookingAPI.Data.Models;
-using HotelBookingAPI.Data.Services.Interface;
+﻿using HotelBookingAPI.Data.Services.Interface;
+using HotelBookingAPI.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
