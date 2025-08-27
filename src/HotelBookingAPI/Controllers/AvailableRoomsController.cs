@@ -1,6 +1,7 @@
 ﻿using HotelBookingAPI.Data.Services.Interface;
 using HotelBookingAPI.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingAPI.Controllers;
@@ -15,8 +16,17 @@ public class AvailableRoomsController : ControllerBase
         _bookingService = bookingService;
     }
 
+    [SwaggerOperation(
+        Summary = "Fetches Available Rooms",
+        Description = "Returns available hotel rooms for given dates and room occupancy.",
+        OperationId = $"{nameof(Get)}AvailableRooms"
+    )]
+    [SwaggerResponse(200, "Rooms were successfully returned", typeof(RoomHotelModel))]
+    [SwaggerResponse(400, "Invalid request")]
+    [SwaggerResponse(404, "No available rooms found for given dates and number of people")]
+    [SwaggerResponse(500, "Unexpected error occured when fetching booking")]
     [HttpGet]
-    public ActionResult<RoomModel> Get([Required] AvailibilityRequestModel availibilityRequest)
+    public ActionResult<RoomHotelModel> Get([Required] AvailibilityRequestModel availibilityRequest)
     {
         if (!ModelState.IsValid) 
         {

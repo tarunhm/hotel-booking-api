@@ -1,6 +1,7 @@
 ﻿using HotelBookingAPI.Data.Services.Interface;
 using HotelBookingAPI.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingAPI.Controllers;
@@ -15,6 +16,15 @@ public class BookingsController : ControllerBase
         _bookingService = bookingService;
     }
 
+    [SwaggerOperation(
+        Summary = "Fetches a Hotel Booking by Booking ID",
+        Description = "Returns a hotel room booking by the unique Booking ID, if the booking exists.",
+        OperationId = $"{nameof(GetById)}Booking"
+    )]
+    [SwaggerResponse(200, "Booking was successfully returned", typeof(BookingModel))]
+    [SwaggerResponse(400, "Invalid request")]
+    [SwaggerResponse(404, "Booking was not found")]
+    [SwaggerResponse(500, "Unexpected error occured when fetching booking")]
     [HttpGet]
     public async Task<ActionResult<BookingModel>> GetById([Required] int id)
     {
@@ -29,10 +39,18 @@ public class BookingsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.Message);
         }
     }
 
+    [SwaggerOperation(
+        Summary = "Create a Booking",
+        Description = "Creates a booking when the room is available for given dates.",
+        OperationId = $"{nameof(Create)}Booking"
+    )]
+    [SwaggerResponse(200, "Booking was successfully created", typeof(int))]
+    [SwaggerResponse(400, "Invalid request")]
+    [SwaggerResponse(500, "Unexpected error occured when creating booking")]
     [HttpPost]
     public async Task<ActionResult<int>> Create([FromBody][Required] BookingRequestModel booking)
     {
@@ -44,7 +62,7 @@ public class BookingsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.Message);
         }
     }
 }
