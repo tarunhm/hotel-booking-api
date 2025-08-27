@@ -9,8 +9,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDataLayerAccess();
 
+var databaseOptions = builder.Configuration.GetRequiredSection("Database");
+if (string.IsNullOrEmpty(databaseOptions.GetSection("Password").Value))
+{
+    databaseOptions["Password"] = Environment.GetEnvironmentVariable("DatabasePassword");
+}
+
 builder.Services.AddOptions<DatabaseServiceOptions>()
-            .Bind(builder.Configuration.GetRequiredSection("Database"))
+            .Bind(databaseOptions)
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
