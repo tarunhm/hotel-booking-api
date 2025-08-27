@@ -42,14 +42,14 @@ public class BookingService : IBookingService
         throw new InvalidOperationException($"Room with ID {bookingRequest.RoomId} is not available for check in on {bookingRequest.CheckInDate} for {bookingRequest.Nights} nights.");
     }
 
-    public IList<RoomModel> GetAvailableRooms(int people, DateOnly checkInDate, int duration)
+    public IList<RoomHotelModel> GetAvailableRooms(int people, DateOnly checkInDate, int duration)
     {
         var rooms = _roomRepository.GetByCapacity(people);
         if (!rooms.Any()) { return []; }
 
         var availableRooms = rooms.Where(room => IsRoomAvailable(room.Bookings, checkInDate, duration));
 
-        return availableRooms.Select(room => new RoomModel() { RoomId = room.Id, HotelId = room.HotelId, HotelName = room.Hotel?.HotelName!, RoomType = room.RoomType, RoomCapacity = room.RoomCapacity}).ToList();
+        return availableRooms.Select(RoomMapper.MapEntityToHotelModel).ToList();
     }
 
     private static bool IsRoomAvailable(ICollection<BookingEntity> bookings, DateOnly checkInDate, int newBookingDuration)
