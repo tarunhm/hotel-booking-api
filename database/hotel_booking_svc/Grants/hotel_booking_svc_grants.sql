@@ -5,3 +5,7 @@ GRANT CREATE SESSION TO hotel_booking_svc;
 GRANT READ ON hotel_booking.hotels TO hotel_booking_svc;
 GRANT READ ON hotel_booking.rooms TO hotel_booking_svc;
 GRANT CREATE, DELETE, UPDATE, READ ON hotel_booking.bookings TO hotel_booking_svc;
+
+-- Grants to test data procedures
+GRANT EXECUTE ON hotel_booking.seed_data TO hotel_booking_svc;
+GRANT EXECUTE ON hotel_booking.reset_data TO hotel_booking_svc;
