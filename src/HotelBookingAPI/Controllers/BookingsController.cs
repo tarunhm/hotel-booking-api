@@ -45,7 +45,7 @@ public class BookingsController : ControllerBase
 
     [SwaggerOperation(
         Summary = "Create a Booking",
-        Description = "Creates a booking when the room is available for given dates.",
+        Description = "Creates a booking when the room is available for given dates. On success, returns the unique booking identifier.",
         OperationId = $"{nameof(Create)}Booking"
     )]
     [SwaggerResponse(200, "Booking was successfully created", typeof(int))]
