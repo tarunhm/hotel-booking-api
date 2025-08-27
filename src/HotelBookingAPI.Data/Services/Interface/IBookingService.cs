@@ -8,5 +8,5 @@ public interface IBookingService
 
     Task<BookingModel?> GetById(int id);
 
-    IList<RoomModel> GetAvailableRooms(int people, DateOnly checkInDate, int duration);
+    IList<RoomHotelModel> GetAvailableRooms(int people, DateOnly checkInDate, int duration);
 }
