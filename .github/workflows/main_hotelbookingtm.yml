@@ -60,8 +60,9 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'HotelBookingTM'
-          slot-name: 'Production'
+          slot-name: 'Test'
           package: .
 
           
+
 
