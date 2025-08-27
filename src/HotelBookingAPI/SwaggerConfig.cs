@@ -10,11 +10,7 @@ public static class SwaggerConfig
     {
         app.UseSwagger(options => options.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwaggerUI();
-        }
+        app.UseSwaggerUI();
 
         // Generate swagger.json on application run
         ISwaggerProvider sw = app.Services.GetRequiredService<ISwaggerProvider>();
