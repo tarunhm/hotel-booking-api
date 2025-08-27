@@ -1,0 +1,472 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Hotel Booking API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api/AvailableRooms/Get": {
+      "get": {
+        "tags": [
+          "AvailableRooms"
+        ],
+        "summary": "Fetches Available Rooms",
+        "description": "Returns available hotel rooms for given dates and room occupancy.",
+        "operationId": "GetAvailableRooms",
+        "parameters": [
+          {
+            "name": "CheckInDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "Nights",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "People",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rooms were successfully returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomHotelModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomHotelModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomHotelModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "No available rooms found for given dates and number of people"
+          },
+          "500": {
+            "description": "Unexpected error occured when fetching booking"
+          }
+        }
+      }
+    },
+    "/api/Bookings/GetById": {
+      "get": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Fetches a Hotel Booking by Booking ID",
+        "description": "Returns a hotel room booking by the unique Booking ID, if the booking exists.",
+        "operationId": "GetByIdBooking",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking was successfully returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Booking was not found"
+          },
+          "500": {
+            "description": "Unexpected error occured when fetching booking"
+          }
+        }
+      }
+    },
+    "/api/Bookings/Create": {
+      "post": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Create a Booking",
+        "description": "Creates a booking when the room is available for given dates.",
+        "operationId": "CreateBooking",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingRequestModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Booking was successfully created",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "500": {
+            "description": "Unexpected error occured when creating booking"
+          }
+        }
+      }
+    },
+    "/api/Hotel/Get": {
+      "get": {
+        "tags": [
+          "Hotel"
+        ],
+        "summary": "Fetches Hotels by search term",
+        "description": "Returns hotel information whose name contains the search term input.",
+        "operationId": "GetHotels",
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hotels were successfully returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "No hotels found containing search term"
+          },
+          "500": {
+            "description": "Unexpected error occured when fetching hotels"
+          }
+        }
+      }
+    },
+    "/api/Hotel/GetAll": {
+      "get": {
+        "tags": [
+          "Hotel"
+        ],
+        "summary": "Fetches All Hotels",
+        "description": "Returns hotel information including room details.",
+        "operationId": "GetAllHotels",
+        "responses": {
+          "200": {
+            "description": "Hotels were successfully returned",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "No hotels found"
+          },
+          "500": {
+            "description": "Unexpected error occured when fetching hotels"
+          }
+        }
+      }
+    },
+    "/api/TestData/Reset": {
+      "delete": {
+        "tags": [
+          "TestData"
+        ],
+        "summary": "Reset data",
+        "description": "Removes all bookings, hotels and rooms from the system.",
+        "operationId": "Reset",
+        "responses": {
+          "200": {
+            "description": "Data successfully reset",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TestData/Seed": {
+      "put": {
+        "tags": [
+          "TestData"
+        ],
+        "summary": "Seeds data",
+        "description": "Seeds hotels and rooms into the system for testing purposes.",
+        "operationId": "Seed",
+        "responses": {
+          "200": {
+            "description": "Data successfully reset and seeded",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BookingModel": {
+        "type": "object",
+        "properties": {
+          "bookingId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "bookingUser": {
+            "type": "string",
+            "nullable": true
+          },
+          "checkInDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "checkOutDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "roomId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomType": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomCapacity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hotelId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hotelName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookingRequestModel": {
+        "required": [
+          "checkInDate",
+          "nights",
+          "roomId"
+        ],
+        "type": "object",
+        "properties": {
+          "checkInDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "nights": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookingUser": {
+            "maxLength": 50,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoomHotelModel": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomType": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomCapacity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hotelId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hotelName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoomModel": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomType": {
+            "type": "string",
+            "nullable": true
+          },
+          "roomCapacity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

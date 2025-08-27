@@ -1,3 +1,4 @@
+using HotelBookingAPI;
 using HotelBookingAPI.Data;
 using Microsoft.OpenApi.Models;
 
@@ -26,13 +27,7 @@ builder.Services.AddSwaggerGen(config =>
 
 var app = builder.Build();
 
-app.UseSwagger(options => options.OpenApiVersion =Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerUI();
-}
+app.ConfigureSwagger();
 
 app.UseHttpsRedirection();
 
